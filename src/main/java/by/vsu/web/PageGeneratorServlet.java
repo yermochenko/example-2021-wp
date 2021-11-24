@@ -14,8 +14,8 @@ public class PageGeneratorServlet extends HttpServlet {
 		PrintWriter pw = resp.getWriter();
 		pw.println("<html>");
 		pw.println("<body style=\"background: yellow\">");
-		double number = Math.round(Math.random() * 100);
-		pw.println("<p style=\"background: #AFA; border: 2px solid green; padding: 20px; border-radius: 20px;\">" + number + "</p>");
+		int number = (int)Math.round(Math.random() * 100);
+		pw.println("<p style=\"background: rgb(200, 255, 200); border: 2px solid green; padding: 20px; border-radius: 20px;\">" + number + "</p>");
 		pw.println("</body>");
 		pw.println("</html>");
 	}
