@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.vsu.domain.Task;
-import by.vsu.storage.TaskCsvStorage;
+import by.vsu.storage.StorageException;
+import by.vsu.storage.TaskStorage;
+import by.vsu.storage.TaskStorageFactory;
 
 public class TaskListServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		TaskCsvStorage storage = new TaskCsvStorage();
-		storage.setFileName("D:\\eclipse-workspaces\\git\\example-2021-wp\\tasks.csv");
+		TaskStorage storage = TaskStorageFactory.newInstance();
 		try {
 			ArrayList<Task> tasks = storage.readAll();
 			req.setAttribute("tasks", tasks);
 			req.getRequestDispatcher("/WEB-INF/task/list.html").forward(req, resp);
-		} catch (IOException e) {
+		} catch (StorageException e) {
 			throw new ServletException(e);
 		}
 	}

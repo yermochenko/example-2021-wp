@@ -10,14 +10,15 @@ import java.util.ArrayList;
 
 import by.vsu.domain.Task;
 
-public class TaskCsvStorage {
+public class TaskCsvStorage extends TaskStorage {
 	private String fileName;
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
-	public ArrayList<Task> readAll() throws IOException {
+	@Override
+	public ArrayList<Task> readAll() throws StorageException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		BufferedReader br = null;
 		String row = null;
@@ -38,12 +39,14 @@ public class TaskCsvStorage {
 					task.setImportance(Double.parseDouble(parts[5]));
 					tasks.add(task);
 				} else {
-					throw new IOException("Incorrect amount of cell in row \"" + row + "\"");
+					throw new StorageException("Incorrect amount of cell in row \"" + row + "\"");
 				}
 			}
 			return tasks;
 		} catch(ParseException | NumberFormatException e) {
-			throw new IOException("Incorrect content of cells in row \"" + row + "\"");
+			throw new StorageException("Incorrect content of cells in row \"" + row + "\"");
+		} catch(IOException e) {
+			throw new StorageException(e);
 		} finally {
 			try { br.close(); } catch(Exception e) {}
 		}
