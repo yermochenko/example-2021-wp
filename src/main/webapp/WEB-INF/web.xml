@@ -14,13 +14,4 @@
         <servlet-name>TaskListServlet</servlet-name>
         <url-pattern>/task/list.html</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-      <servlet-name>TaskListViewServlet</servlet-name>
-      <servlet-class>by.vsu.web.TaskListViewServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TaskListViewServlet</servlet-name>
-        <url-pattern>/WEB-INF/task/list.html</url-pattern>
-    </servlet-mapping>
 </web-app>

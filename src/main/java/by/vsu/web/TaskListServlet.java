@@ -20,7 +20,7 @@ public class TaskListServlet extends HttpServlet {
 		try {
 			ArrayList<Task> tasks = storage.readAll();
 			req.setAttribute("tasks", tasks);
-			req.getRequestDispatcher("/WEB-INF/task/list.html").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/jsp/task/list.jsp").forward(req, resp);
 		} catch (StorageException e) {
 			throw new ServletException(e);
 		}
