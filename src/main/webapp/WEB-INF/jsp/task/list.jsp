@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="by.vsu.domain.Task"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -26,7 +27,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>List of tasks (from JSP)</h1>
+		<h1>List of tasks (from JSTL)</h1>
 		<table>
 			<tr>
 				<th>Title</th>
@@ -34,22 +35,23 @@
 				<th>Date</th>
 				<th>Importance</th>
 			</tr>
-			<%
-				@SuppressWarnings("unchecked")
-				ArrayList<Task> tasks = (ArrayList<Task>) request.getAttribute("tasks");
-				int size = tasks.size();
-				for(Task task : tasks) {
-			%>
-			<tr <% if(!task.isActive()) {%>class="disable"<%}%>>
-				<td><%=task.getTitle()%></td>
-				<td><%=task.getDescription()%></td> 
-				<td><%=String.format("%1$td.%1$tm.%1$tY, %1$tH:%1$tM", task.getDate())%></td>
-				<td><%=String.format("%.2f", task.getImportance()) %></td>
-			</tr>
-			<%
-				}
-			%>
+			<c:forEach var="task" items="${tasks}">
+				<c:choose>
+					<c:when test="${task.active}">
+						<c:set var="cls" value="enable"/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="cls" value="disable"/>
+					</c:otherwise>
+				</c:choose>
+				<tr class="${cls}">
+					<td>${task.title}</td>
+					<td>${task.description}</td>
+					<td><fmt:formatDate value="${task.date}" pattern="dd.MM.yyyy, HH:mm"/></td>
+					<td><fmt:formatNumber value="${task.importance}" pattern="0.00"/></td>
+				</tr>
+			</c:forEach>
 		</table>
-		<p>Total <%=size%> tasks</p>
+		<p>Total ${fn:length(tasks)} tasks</p>
 	</body>
 </html>
